@@ -107,7 +107,7 @@ CPIEU$INFLATION <- quantmod::Delt(CPIEU$CP0000EZ19M086NEST, k = 12)*100
 #Graficamos las inflaciones
 plot(index(CPIEU),CPIEU$INFLATION,typ='l',xlab='',ylab='', main = "Inflación anual USA vs EU", col="red", ylim = c(-2,5.5))
 lines(index(CPI),CPI$INFLATION, col="blue")
-legend("topleft", legend=c("EU", "USA"),col=c("blue", "red"), lty=1:2, cex=0.8)
+legend("topleft", legend=c("EU", "USA"),col=c("red", "blue"), lty=1:2, cex=0.8)
 
 
 
