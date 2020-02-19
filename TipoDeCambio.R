@@ -41,9 +41,32 @@ rer_spain <- rer %>%
   mutate(date = as.Date(as.yearmon(date))) %>%
   select(date, obs_value)
 
-ggplot(data = rer_spain, aes(x=date, y=obs_value))+
+p1 <- ggplot(data = rer_spain, aes(x=date, y=obs_value))+
   geom_line(size=1.6)+
   labs(title = "Tipo de cambio real España", x="", y="", caption = 'Fuente = BIS')
+
+#Graficamos la cuenta corriente y comparamos con el TCR
+
+#Usamos la libreria FRED
+library(fredr)
+
+fredr_set_key("be9498fedfcbead42dae240c1a633924")
+
+CA_spain <- fredr(
+  series_id = "ESPB6BLTT02STSAQ",
+  observation_start = as.Date("2000-01-01")
+)
+
+#Para alinear los graficos
+library(patchwork)
+
+p2 <- ggplot(data = CA_spain, aes(x=date, y=value))+
+  geom_line(size=1.6, colour="blue")+
+  labs(title = "Cuenta corriente España (% PIB)", x="", y="", caption = 'Fuente = FRED')+
+  geom_hline(yintercept=0)
+
+p1 / p2
+
 
 #Graficamos el TCR de la zona euro con el de USA
 rer %>% 
@@ -85,4 +108,6 @@ CPIEU$INFLATION <- quantmod::Delt(CPIEU$CP0000EZ19M086NEST, k = 12)*100
 plot(index(CPIEU),CPIEU$INFLATION,typ='l',xlab='',ylab='', main = "Inflación anual USA vs EU", col="red", ylim = c(-2,5.5))
 lines(index(CPI),CPI$INFLATION, col="blue")
 legend("topleft", legend=c("EU", "USA"),col=c("blue", "red"), lty=1:2, cex=0.8)
+
+
 
