@@ -96,8 +96,12 @@ getSymbols('CP0000EZ19M086NEST',src='FRED')
 CPI_EU <- CP0000EZ19M086NEST
 CPIEU <- CPI_EU["2001-01-01/2020-01-01"]
 
+CPIEU$INDEX <- (CPIEU$CP0000EZ19M086NEST/as.numeric(CPIEU$CP0000EZ19M086NEST[1,1]))*100
+CPI$INDEX <- (CPI$CPIAUCSL/as.numeric(CPI$CPIAUCSL[1,1]))*100
+
+
 #Graficamos ambos indices
-plot(index(CPIEU),CPIEU$INDEX,typ='l',xlab='',ylab='', main = "IPC USA vs EU", col="red", ylim = c(95,150))
+plot(x =  index(CPIEU), y = CPIEU$INDEX,typ='l',xlab='',ylab='', main = "IPC USA vs EU", col="red", ylim = c(95,150))
 lines(index(CPI),CPI$INDEX, col="blue")
 legend("topleft", legend=c("EU", "USA"),col=c("blue", "red"), lty=1:2, cex=0.8)
 
