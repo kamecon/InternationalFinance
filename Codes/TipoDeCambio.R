@@ -7,7 +7,7 @@ euro_libra <- `EURGBP=X`
 euro_yen <- `EURJPY=X`
 
 #Graficamos los tipos de cambio
-plot(index(euro_dolar),as.numeric(euro_dolar[,6]),typ='l',xlab='',ylab='EUR/USD', main = "Tipo de Cambio Euro/Dólar")
+plot(index(euro_dolar),as.numeric(euro_dolar[,6]),typ='l',xlab='',ylab='EUR/USD', main = "Tipo de Cambio Euro/DÃ³lar")
 plot(index(euro_libra),as.numeric(euro_libra[,6]),typ='l',xlab='',ylab='EUR/GBP', main = "Tipo de Cambio Euro/Libra")
 plot(index(euro_yen),as.numeric(euro_yen[,6]),typ='l',xlab='',ylab='EUR/JPY', main = "Tipo de Cambio Euro/Yen")
 
@@ -18,15 +18,15 @@ euro_yen$adjusteddiff <- diff(euro_yen$`EURJPY=X.Adjusted`)
 
 
 #Graficamos las variaciones
-plot(index(euro_dolar),as.numeric(euro_dolar[,7]),typ='l',xlab='',ylab='EUR/USD', main = "Variación del Tipo de Cambio Euro/Dólar")
-plot(index(euro_libra),as.numeric(euro_libra[,7]),typ='l',xlab='',ylab='EUR/GBP', main = "Variación del Tipo de Cambio Euro/Libra")
-plot(index(euro_yen),as.numeric(euro_yen[,7]),typ='l',xlab='',ylab='EUR/USD', main = "Variación del Tipo de Cambio Euro/Yen")
+plot(index(euro_dolar),as.numeric(euro_dolar[,7]),typ='l',xlab='',ylab='EUR/USD', main = "VariaciÃ³n del Tipo de Cambio Euro/DÃ³lar")
+plot(index(euro_libra),as.numeric(euro_libra[,7]),typ='l',xlab='',ylab='EUR/GBP', main = "VariaciÃ³n del Tipo de Cambio Euro/Libra")
+plot(index(euro_yen),as.numeric(euro_yen[,7]),typ='l',xlab='',ylab='EUR/USD', main = "VariaciÃ³n del Tipo de Cambio Euro/Yen")
 
 
 #Grafico variaciones y nivel
 par(mfrow=c(2,1))
-plot(index(euro_dolar),as.numeric(euro_dolar[,6]),typ='l',xlab='',ylab='EUR/USD', main = "Tipo de Cambio Euro/Dólar")
-plot(index(euro_dolar),as.numeric(euro_dolar[,7]),typ='l',xlab='',ylab='EUR/USD', main = "Variación del Tipo de Cambio Euro/Dólar")
+plot(index(euro_dolar),as.numeric(euro_dolar[,6]),typ='l',xlab='',ylab='EUR/USD', main = "Tipo de Cambio Euro/DÃ³lar")
+plot(index(euro_dolar),as.numeric(euro_dolar[,7]),typ='l',xlab='',ylab='EUR/USD', main = "VariaciÃ³n del Tipo de Cambio Euro/DÃ³lar")
 dev.off()
 
 #Guardamos
@@ -35,13 +35,13 @@ save(euro_libra, file = "data/euro_libra.RData")
 save(euro_yen, file = "data/euro_yen.RData")
 
 
-#Empleamos la librería BIS para descargar los datos de tipo de cambio real
+#Empleamos la librerÃ­a BIS para descargar los datos de tipo de cambio real
 library(BIS)
 datasets <- get_datasets()
 head(datasets, 20)
 rer <- get_bis(datasets$url[datasets$name == "Effective exchange rate indices (monthly)"], quiet = TRUE)
 
-#Analizamos el caso español
+#Analizamos el caso espaÃ±ol
 library(tidyverse)
 rer_spain <- rer %>%
   dplyr::filter(type=="Real" & reference_area=="Spain" & eer_basket=="B" & date > "1999-12") %>%
@@ -50,7 +50,7 @@ rer_spain <- rer %>%
 
 p1 <- ggplot(data = rer_spain, aes(x=date, y=obs_value))+
   geom_line(size=1.6)+
-  labs(title = "Tipo de cambio real España", x="", y="", caption = 'Fuente = BIS')+
+  labs(title = "Tipo de cambio real EspaÃ±a", x="", y="", caption = 'Fuente = BIS')+
   theme(plot.title=element_text(face="bold",hjust=0.5,vjust=2,colour="#3C3C3C",size=12))
 
 #Graficamos la cuenta corriente y comparamos con el TCR
@@ -58,7 +58,7 @@ p1 <- ggplot(data = rer_spain, aes(x=date, y=obs_value))+
 #Usamos la libreria FRED
 library(fredr)
 
-fredr_set_key("be9498fedfcbead42dae240c1a633924")
+fredr_set_key("xxxxxxxxxxxx")
 
 CA_spain <- fredr(
   series_id = "ESPB6BLTT02STSAQ",
@@ -70,7 +70,7 @@ library(patchwork)
 
 p2 <- ggplot(data = CA_spain, aes(x=date, y=value))+
   geom_line(size=1.6, colour="blue")+
-  labs(title = "Cuenta corriente España (% PIB)", x="", y="", caption = 'Fuente = FRED')+
+  labs(title = "Cuenta corriente EspaÃ±a (% PIB)", x="", y="", caption = 'Fuente = FRED')+
   geom_hline(yintercept=0)
 
 p1 / p2
@@ -108,7 +108,7 @@ getSymbols('CP0000EZ19M086NEST',src='FRED')
 CPI_EU <- CP0000EZ19M086NEST
 CPIEU <- CPI_EU["2001-01-01/2019-12-01"]
 
-#Creamos un indice base 100 en el 1º año con los dops ipc's
+#Creamos un indice base 100 en el 1Âº aÃ±o con los dops ipc's
 CPIEU$INDEX <- (CPIEU$CP0000EZ19M086NEST/as.numeric(CPIEU$CP0000EZ19M086NEST[1,1]))*100
 CPI$INDEX <- (CPI$CPIAUCSL/as.numeric(CPI$CPIAUCSL[1,1]))*100
 
@@ -121,7 +121,7 @@ CPI$INFLATION <- quantmod::Delt(CPI$CPIAUCSL, k = 12)*100
 CPIEU$INFLATION <- quantmod::Delt(CPIEU$CP0000EZ19M086NEST, k = 12)*100
 
 #Graficamos las inflaciones
-plot(index(CPIEU),CPIEU$INFLATION,typ='l',xlab='',ylab='', main = "Inflación anual USA vs EU", col="red", ylim = c(-2,5.5))
+plot(index(CPIEU),CPIEU$INFLATION,typ='l',xlab='',ylab='', main = "InflaciÃ³n anual USA vs EU", col="red", ylim = c(-2,5.5))
 lines(index(CPI),CPI$INFLATION, col="blue")
 legend("topleft", legend=c("EU", "USA"),col=c("red", "blue"), lty=1:2, cex=0.8)
 
