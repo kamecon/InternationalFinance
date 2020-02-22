@@ -1,0 +1,185 @@
+---
+title: "Tipo de Cambio Nominal y Real: Evidencia Empírica"
+subtitle: "Financiación Internacional"
+author: "Kamal Romero"
+date: "(actualizado: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_knit$set(root.dir = "G:/CEU/FI/Taller/codes/InternationalFinance/" )
+```
+
+```{r librerias, echo = FALSE, warning=FALSE, message=FALSE}
+if (! ('pacman' %in% installed.packages())) install.packages('pacman')
+pacman::p_load(tidyverse, kableExtra, quantmod, BIS, fredr, patchwork)
+```
+
+## Tipo de Cambio Nominal
+
+- El comportamiento del tipo de cambio es lejos de ser sistemático y predecible
+
+```{r er0librerias, echo = FALSE, warning=FALSE, message=FALSE, include=FALSE}
+#Cargamos los datos
+list.files(path = "Data/", full.names = TRUE) %>%
+  map(load,.GlobalEnv)
+
+```
+
+```{r er1, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=7.5}
+
+plot(index(euro_dolar),as.numeric(euro_dolar[,6]),typ='l',xlab='',ylab='EUR/USD', main = "Tipo de Cambio Euro/Dólar")
+
+
+```
+
+---
+
+## Tipo de Cambio Nominal
+
+- El comportamiento del tipo de cambio es lejos de ser sistemático y predecible
+
+```{r er2, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=7.5}
+
+plot(index(euro_libra),as.numeric(euro_libra[,6]),typ='l',xlab='',ylab='EUR/GBP', main = "Tipo de Cambio Euro/Libra")
+
+
+```
+---
+
+## Tipo de Cambio Nominal
+
+- El comportamiento del tipo de cambio es lejos de ser sistemático y predecible
+
+```{r er3, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=7.5}
+
+plot(index(euro_yen),as.numeric(euro_yen[,6]),typ='l',xlab='',ylab='EUR/JPY', main = "Tipo de Cambio Euro/Yen")
+
+
+```
+---
+
+## Tipo de Cambio Nominal
+
+- Aunque sus variaciones presentan un comportamiento más estacionario
+
+```{r er4, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=7.5}
+
+plot(index(euro_dolar),as.numeric(euro_dolar[,7]),typ='l',xlab='',ylab='EUR/USD', main = "Variación del Tipo de Cambio Euro/Dólar")
+
+```
+---
+
+## Tipo de Cambio Nominal
+
+- Aunque sus variaciones presentan un comportamiento más estacionario
+
+```{r er5, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=7.5}
+
+plot(index(euro_libra),as.numeric(euro_libra[,7]),typ='l',xlab='',ylab='EUR/GBP', main = "Variación del Tipo de Cambio Euro/Libra")
+
+```
+---
+
+## Tipo de Cambio Nominal
+
+- Aunque sus variaciones presentan un comportamiento más estacionario
+
+```{r er6, warning=FALSE, message=FALSE, fig.align='center', fig.width=12, fig.height=7.5}
+
+plot(index(euro_yen),as.numeric(euro_yen[,7]),typ='l',xlab='',ylab='EUR/USD', main = "Variación del Tipo de Cambio Euro/Yen")
+
+```
+---
+
+## Tipo de Cambio Real
+
+- Las variaciones del tipo de cambio real reflejan los movimientos de los precios relativos de los bienes locales en términos de los bienes foráneos y las variaciones del tipo de cambio nominal
+
+```{r er7, warning=FALSE, message=FALSE, fig.align='center', fig.width=10, fig.height=6}
+
+p1 <- ggplot(data = rer_spain, aes(x=date, y=obs_value))+
+  geom_line(size=1.6)+
+  labs(title = "Tipo de cambio real España", x="", y="", caption = 'Fuente = BIS')+
+  theme(plot.title=element_text(face="bold",hjust=0.5,vjust=2,colour="#3C3C3C",size=14))
+
+p1
+
+```
+---
+
+## Tipo de Cambio Real
+
+- El tipo de cambio real se emplea como indicador del grado de competitividad de un país, lo cual a su vez afecta sus flujos comerciales 
+
+```{r er8, warning=FALSE, message=FALSE, fig.align='center', fig.width=10, fig.height=6}
+
+p2 <- ggplot(data = CA_spain, aes(x=date, y=value))+
+  geom_line(size=1.6, colour="blue")+
+  labs(title = "Cuenta corriente España (% PIB)", x="", y="", caption = 'Fuente = FRED')+
+  geom_hline(yintercept=0)+
+  theme(plot.title=element_text(face="bold",hjust=0.5,vjust=2,colour="#3C3C3C",size=14))
+
+p1 / p2
+
+
+```
+---
+
+## Tipo de Cambio Real
+
+- Comparando la evolución del tipo de cambio real en USA y la Zona Euro. ¿Qué conclusiones es posible sacar? ¿Qué determinantes se les ocurre puede provocar este comportamiento? ¿En realidad la Zona Euro es más competitiva?
+
+```{r er9, warning=FALSE, message=FALSE, fig.align='center', fig.width=10, fig.height=6}
+
+rer %>% 
+  dplyr::filter(reference_area %in% c("United States","Euro area" )) %>%
+  dplyr::filter(type=="Real" & eer_basket=="B" & date > "1999-12") %>%
+  mutate(date = as.Date(as.yearmon(date))) %>% 
+  ggplot(aes(x=date, y=obs_value, group=reference_area, colour=reference_area))+
+  geom_line(size=1.0)+
+  labs(title = "Tipo de cambio real: Eurozona vs USA", x="", y="", caption = 'Fuente = BIS')+
+  theme(legend.title=element_blank())+
+  theme(legend.position = "bottom")+
+  theme(plot.title=element_text(face="bold",hjust=0.5,vjust=2,colour="#3C3C3C",size=18))+
+  theme(axis.text.x=element_text(size=11,colour="#535353",face="bold")) +
+  theme(axis.text.y=element_text(size=11,colour="#535353",face="bold")) +
+  theme(legend.text=element_text(size=13))
+
+
+```
+---
+
+## Tipo de Cambio Real
+
+- Podemos observar que el comportamiento de los precios puede ser clave ¿Qué problema hay con usar los índices de precios? Recordar la definición de tipo de cambio real
+
+```{r er10, warning=FALSE, message=FALSE, fig.align='center', fig.width=10, fig.height=6.5}
+
+plot(index(CPIEU),CPIEU$INDEX,typ='l',xlab='',ylab='', main = "IPC USA vs EU", col="red", ylim = c(95,150))
+lines(index(CPI),CPI$INDEX, col="blue")
+legend("topleft", legend=c("EU", "USA"),col=c("red", "blue"), lty=1:2, cex=0.8)
+
+```
+---
+
+## Tipo de Cambio Real
+
+- Podemos observar que el comportamiento de los precios puede ser clave ¿Qué problema hay con usar los índices de precios? Recordar la definición de tipo de cambio real **Es la inflación**
+
+```{r er11, warning=FALSE, message=FALSE, fig.align='center', fig.width=10, fig.height=6.5}
+
+plot(index(CPIEU),CPIEU$INFLATION,typ='l',xlab='',ylab='', main = "Inflación anual USA vs EU", col="red", ylim = c(-2,5.5))
+lines(index(CPI),CPI$INFLATION, col="blue")
+legend("topleft", legend=c("EU", "USA"),col=c("red", "blue"), lty=1:2, cex=0.8)
+
+
+```
