@@ -8,7 +8,11 @@ euro_libra <- `EURGBP=X`
 euro_yen <- `EURJPY=X`
 
 #Graficamos los tipos de cambio
+<<<<<<< HEAD
 plot(index(euro_dolar),as.numeric(euro_dolar[,6]),typ='l',xlab='',ylab='EUR/USD', main = "Tipo de Cambio Euro/D?lar")
+=======
+plot(index(euro_dolar),as.numeric(euro_dolar[,6]),typ='l',xlab='',ylab='EUR/USD', main = "Tipo de Cambio Euro/Dólar")
+>>>>>>> b592b37ab67e684d14f896628d5bae4f7296655e
 plot(index(euro_libra),as.numeric(euro_libra[,6]),typ='l',xlab='',ylab='EUR/GBP', main = "Tipo de Cambio Euro/Libra")
 plot(index(euro_yen),as.numeric(euro_yen[,6]),typ='l',xlab='',ylab='EUR/JPY', main = "Tipo de Cambio Euro/Yen")
 
@@ -18,15 +22,26 @@ euro_libra$adjusteddiff <- diff(euro_libra$`EURGBP=X.Adjusted` )
 euro_yen$adjusteddiff <- diff(euro_yen$`EURJPY=X.Adjusted`)
 
 #Graficamos las variaciones
+<<<<<<< HEAD
 plot(index(euro_dolar),as.numeric(euro_dolar[,7]),typ='l',xlab='',ylab='EUR/USD', main = "Variaci?n del Tipo de Cambio Euro/D?lar")
 plot(index(euro_libra),as.numeric(euro_libra[,7]),typ='l',xlab='',ylab='EUR/GBP', main = "Variaci?n del Tipo de Cambio Euro/Libra")
 plot(index(euro_yen),as.numeric(euro_yen[,7]),typ='l',xlab='',ylab='EUR/USD', main = "Variaci?n del Tipo de Cambio Euro/Yen")
+=======
+plot(index(euro_dolar),as.numeric(euro_dolar[,7]),typ='l',xlab='',ylab='EUR/USD', main = "Variación del Tipo de Cambio Euro/Dólar")
+plot(index(euro_libra),as.numeric(euro_libra[,7]),typ='l',xlab='',ylab='EUR/GBP', main = "Variación del Tipo de Cambio Euro/Libra")
+plot(index(euro_yen),as.numeric(euro_yen[,7]),typ='l',xlab='',ylab='EUR/USD', main = "Variación del Tipo de Cambio Euro/Yen")
+>>>>>>> b592b37ab67e684d14f896628d5bae4f7296655e
 
 
 #Grafico variaciones y nivel
 par(mfrow=c(2,1))
+<<<<<<< HEAD
 plot(index(euro_dolar),as.numeric(euro_dolar[,6]),typ='l',xlab='',ylab='EUR/USD', main = "Tipo de Cambio Euro/D?lar")
 plot(index(euro_dolar),as.numeric(euro_dolar[,7]),typ='l',xlab='',ylab='EUR/USD', main = "Variaci?n del Tipo de Cambio Euro/D?lar")
+=======
+plot(index(euro_dolar),as.numeric(euro_dolar[,6]),typ='l',xlab='',ylab='EUR/USD', main = "Tipo de Cambio Euro/Dólar")
+plot(index(euro_dolar),as.numeric(euro_dolar[,7]),typ='l',xlab='',ylab='EUR/USD', main = "Variación del Tipo de Cambio Euro/Dólar")
+>>>>>>> b592b37ab67e684d14f896628d5bae4f7296655e
 dev.off()
 
 #Calculamos y graficamos  las variaciones anuales
@@ -46,13 +61,22 @@ save(euro_libra, file = "data/euro_libra.RData")
 save(euro_yen, file = "data/euro_yen.RData")
 
 
+<<<<<<< HEAD
 #Empleamos la librer?a BIS para descargar los datos de tipo de cambio real
+=======
+#Empleamos la librería BIS para descargar los datos de tipo de cambio real
+>>>>>>> b592b37ab67e684d14f896628d5bae4f7296655e
 library(BIS)
 datasets <- get_datasets()
 head(datasets, 20)
 rer <- get_bis(datasets$url[datasets$name == "Effective exchange rate indices (monthly)"], quiet = TRUE)
 
+<<<<<<< HEAD
 #Analizamos el caso espa?ol
+=======
+#Analizamos el caso español
+library(tidyverse)
+>>>>>>> b592b37ab67e684d14f896628d5bae4f7296655e
 rer_spain <- rer %>%
   dplyr::filter(type=="Real" & reference_area=="Spain" & eer_basket=="B" & date > "1999-12") %>%
   mutate(date = as.Date(as.yearmon(date))) %>%
@@ -60,7 +84,11 @@ rer_spain <- rer %>%
 
 p1 <- ggplot(data = rer_spain, aes(x=date, y=obs_value))+
   geom_line(size=1.6)+
+<<<<<<< HEAD
   labs(title = "Tipo de cambio real Espa?a", x="", y="", caption = 'Fuente = BIS')+
+=======
+  labs(title = "Tipo de cambio real España", x="", y="", caption = 'Fuente = BIS')+
+>>>>>>> b592b37ab67e684d14f896628d5bae4f7296655e
   theme(plot.title=element_text(face="bold",hjust=0.5,vjust=2,colour="#3C3C3C",size=12))
 
 #Graficamos la cuenta corriente y comparamos con el TCR
@@ -68,7 +96,7 @@ p1 <- ggplot(data = rer_spain, aes(x=date, y=obs_value))+
 #Usamos la libreria FRED
 library(fredr)
 
-fredr_set_key("be9498fedfcbead42dae240c1a633924")
+fredr_set_key("xxxxxxxxxxxx")
 
 CA_spain <- fredr(
   series_id = "ESPB6BLTT02STSAQ",
@@ -118,7 +146,11 @@ getSymbols('CP0000EZ19M086NEST',src='FRED')
 CPI_EU <- CP0000EZ19M086NEST
 CPIEU <- CPI_EU["2001-01-01/2019-12-01"]
 
+<<<<<<< HEAD
 #Creamos un indice base 100 en el 1? a?o con los dops ipc's
+=======
+#Creamos un indice base 100 en el 1º año con los dops ipc's
+>>>>>>> b592b37ab67e684d14f896628d5bae4f7296655e
 CPIEU$INDEX <- (CPIEU$CP0000EZ19M086NEST/as.numeric(CPIEU$CP0000EZ19M086NEST[1,1]))*100
 CPI$INDEX <- (CPI$CPIAUCSL/as.numeric(CPI$CPIAUCSL[1,1]))*100
 
