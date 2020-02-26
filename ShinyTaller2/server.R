@@ -1,7 +1,5 @@
-# Aplicación web que permite visualizar datos de la base de datos de finanzas públicas de 
-# Eurostat (gov_10a_main) a través de un gráfico y una tabla, asi como descargar los mismos
-# en un documento .pdf
-#                   Elaborado por Kamal Romero (karomero@ucm.es)
+# Aplicación web que permite visualizar datos de la base de datos del BIS a través de 3 gráficos, asi como descargar los mismos en un documento .pdf
+#                   Elaborado por Kamal Romero (kamal.romerosookoo@ceu.es)
 
 
 
@@ -29,6 +27,7 @@ rer_bis <- function(country){
 }
 
 price_bis <- function(country){
+  
   precios2 <- precios %>%  dplyr::filter(frequency == "Monthly" & reference_area %in% c("Spain",country) & unit_of_measure== "Index, 2010 = 100" & date > "1999-12") %>%
     mutate(date = as.Date(as.yearmon(date))) %>%
     select(date, obs_value, reference_area) %>% 
@@ -39,8 +38,6 @@ price_bis <- function(country){
 }
 
 ner_bis <- function(country){
-  
-  #Seleccionamos los datos que nos interesan y los ordenamos por país y año
   
   ner <- rer %>%
     dplyr::filter(type=="Nominal" & reference_area %in% c("Spain", country) & eer_basket=="B" & date > "1999-12") %>%
@@ -126,7 +123,7 @@ shinyServer(
         on.exit(setwd(owd))
         file.copy(src, 'Prueba_reporte.Rmd', overwrite = TRUE)
 
-        #Repetimos los pasos anteriores para realizar la tabla
+        #Cargamos los datos
         datos <- resultados()
         datos2 <- resultados2()
         datos3 <- resultados3()
