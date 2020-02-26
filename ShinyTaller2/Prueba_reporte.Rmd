@@ -1,0 +1,57 @@
+---
+title: "Datos de Tipo de Cambio Real"
+author: "Fuente: BIS"
+date: "Segundo Taller en Grupo"
+output:
+  pdf_document
+header-includes:
+- \usepackage{booktabs}
+
+---
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(knitr)
+library(tidyverse)
+```
+
+
+```{r, echo=FALSE, as.is=TRUE, message=FALSE, warning=FALSE, fig.height = 5, fig.width = 8, fig.align = "center"}
+     ploterr <- ggplot(datos, aes(x=date, y=obs_value, group=reference_area, colour=reference_area))+
+        geom_line(size=1.6)+
+        labs(title = "Tipo de cambio real", x="", y="", caption = 'Fuente = BIS')+
+        theme(plot.title=element_text(face="bold",hjust=0.5,vjust=2,colour="#3C3C3C",size=12))+
+        theme(legend.position = "bottom")+
+        theme(legend.title = element_blank())
+    
+     ploterr
+```
+
+
+```{r, echo=FALSE, as.is=TRUE, message=FALSE, warning=FALSE, fig.height = 5, fig.width = 8, fig.align = "center"}
+   
+  ploterr2 <- ggplot(datos2, aes(x=date, y=obs_value, group=reference_area, colour=reference_area))+
+        geom_line(size=1.6)+
+        labs(title = "Índice de Precios", x="", y="Índice base 2010", caption = 'Fuente = BIS')+
+        theme(plot.title=element_text(face="bold",hjust=0.5,vjust=2,colour="#3C3C3C",size=12))+
+        theme(legend.position = "bottom")+
+        theme(legend.title = element_blank())
+      
+      
+      ploterr2
+
+```
+
+```{r, echo=FALSE, as.is=TRUE, message=FALSE, warning=FALSE, fig.height = 5, fig.width = 8, fig.align = "center"}
+   
+  ploterr3 <-  ggplot(datos3, aes(x=date, y=var_porct, group=reference_area, colour=reference_area))+
+        geom_line(size=1.6)+
+        labs(title = "Variación del tipo de cambio nominal", x="", y="%", caption = 'Fuente = BIS')+
+        theme(plot.title=element_text(face="bold",hjust=0.5,vjust=2,colour="#3C3C3C",size=12))+
+        theme(legend.position = "bottom")+
+        theme(legend.title = element_blank())
+      
+      
+      ploterr3
+```
+
+
