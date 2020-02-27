@@ -112,6 +112,14 @@ shinyServer(
       ploter3
     })
     
+    output$downloadReport <- downloadHandler(
+      filename = function() {
+        paste('reporte', sep = '.', switch(
+          input$format, PDF = 'pdf'
+        ))
+      },
+      
+    
     #Reporte en pdf
       
       content = function(file) {
@@ -135,7 +143,7 @@ shinyServer(
         ))
         file.rename(out, file)
       }
-    
+    )
     
   }
 )
