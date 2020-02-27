@@ -1,3 +1,5 @@
 library(BIS)
 library(tidyverse)
 library(zoo)
+library(knitr)
+library(rmarkdown)

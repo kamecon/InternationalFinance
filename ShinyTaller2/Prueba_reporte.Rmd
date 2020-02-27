@@ -1,7 +1,8 @@
 ---
 title: "Datos de Tipo de Cambio Real"
-author: "Fuente: BIS"
-date: "Segundo Taller en Grupo"
+subtitle: "Financiación Internacional"
+author: "Segundo Taller en Grupo"
+date: "Fuente: BIS"
 output:
   pdf_document
 header-includes:
