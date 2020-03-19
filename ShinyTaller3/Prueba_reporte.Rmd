@@ -1,0 +1,31 @@
+---
+title: "Paridad de Poder de Compra Relativa"
+subtitle: "Financiación Internacional"
+author: "Tercer Taller en Grupo"
+date: "Fuente: BIS"
+output:
+  pdf_document
+header-includes:
+- \usepackage{booktabs}
+
+---
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(knitr)
+library(tidyverse)
+```
+
+
+```{r, echo=FALSE, as.is=TRUE, message=FALSE, warning=FALSE, fig.height = 5, fig.width = 8, fig.align = "center"}
+     ploterr <- ggplot(datos, aes(x=diferencial, y=var_porct)) +
+        geom_point() +
+        geom_smooth(method = "lm", formula = y ~ x) +
+        labs(title = "Paridad de Poder de Compra Relativa", x= "Diferencial de inflación con USA", y="Variación del tipo de cambio (%)", caption = 'Fuente = BIS') +
+        theme(plot.title=element_text(face="bold",hjust=0.5,vjust=2,colour="#3C3C3C",size=12)) +
+        stat_poly_eq(aes(label = paste(..eq.label.., ..rr.label.., sep = "~~~")), label.x.npc = "right", label.y.npc = 0.15,
+                     formula = y ~ x, parse = TRUE, size = 3)
+    
+     ploterr
+```
+
+

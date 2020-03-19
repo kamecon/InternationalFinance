@@ -1,0 +1,13 @@
+name: taller2
+title: taller2
+username:
+account: kamecon
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1860439
+bundleId: 2834837
+url: https://kamecon.shinyapps.io/taller2/
+when: 1582820467.32788
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: opop

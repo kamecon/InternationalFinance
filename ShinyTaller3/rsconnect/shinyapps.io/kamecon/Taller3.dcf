@@ -1,0 +1,13 @@
+name: Taller3
+title: Taller3
+username:
+account: kamecon
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1954837
+bundleId: 2887144
+url: https://kamecon.shinyapps.io/Taller3/
+when: 1584376460.0589
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: opop
