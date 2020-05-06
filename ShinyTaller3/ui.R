@@ -11,7 +11,7 @@ shinyUI(pageWithSidebar(
   sidebarPanel(
     selectizeInput(
       "pais","País",
-      choices=c("Zona Euro"="XM", "Canada"="CA", "Switzerland"="CH", "Australia"="AU",  "Japan"= "JP")
+      choices=c("Zona Euro"="XM", "Canada"="CA", "Switzerland"="CH", "Australia"="AU",  "Japan"= "JP", "United Kingdom" = "GB", "Argentina" = "AR", "Hong Kong SAR" = "HK",  "South Africa" = "ZA", "Russia" = "RU", "India" = "IN", "China" = "CN", "Chile" = "CL")
       
     ),
     

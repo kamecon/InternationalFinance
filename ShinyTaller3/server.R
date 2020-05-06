@@ -12,7 +12,7 @@ tdc_usa <- get_bis(datasets$url[datasets$name == "US dollar exchange rates (mont
 
 inflaciones <- precios %>%
   dplyr::filter(freq=="A" & unit_of_measure == "Year-on-year changes, in per cent" & date > "1999-12") %>%
-  dplyr::filter(ref_area %in% c("US", "CA", "XM", "AU", "JP", "CH")) %>% 
+  dplyr::filter(ref_area %in% c("US", "CA", "XM", "AU", "JP", "CH", "GB", "AR", "HK",  "ZA", "RU", "IN", "CN", "CL")) %>% 
   select(ref_area, reference_area, unit_of_measure, date, obs_value) %>% 
   mutate(date = as.numeric(date)) %>% 
   select(ref_area, date, obs_value) %>% 
@@ -22,7 +22,7 @@ inflaciones <- precios %>%
 
 tdc_var <- tdc_usa %>% 
   dplyr::filter(freq=="A" & date > "1998" & collection == "A") %>%
-  dplyr::filter(ref_area %in% c("US", "CA", "XM", "AU", "JP", "CH")) %>% 
+  dplyr::filter(ref_area %in% c("US", "CA", "XM", "AU", "JP", "CH", "GB", "AR", "HK",  "ZA", "RU", "IN", "CN", "CL")) %>% 
   group_by(ref_area) %>%
   mutate(var_porct = (obs_value/lag(obs_value) -1)*100) %>% 
   dplyr::filter(date > "1999")%>% 
