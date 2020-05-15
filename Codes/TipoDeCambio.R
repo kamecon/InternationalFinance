@@ -55,6 +55,20 @@ p1 <- ggplot(data = rer_spain, aes(x=date, y=obs_value))+
 
 #Graficamos la cuenta corriente y comparamos con el TCR
 
+#Caso griego
+
+library(tidyverse)
+rer_greece <- rer %>%
+  dplyr::filter(type=="Real" & reference_area == "Greece"  & eer_basket=="B" & date > "1999-12") %>%
+  mutate(date = as.Date(as.yearmon(date))) %>%
+  select(date, obs_value)
+
+p1g <- ggplot(data = rer_greece, aes(x=date, y=obs_value))+
+  geom_line(size=1.6)+
+  labs(title = "Tipo de cambio real Grecia", x="", y="", caption = 'Fuente = BIS')+
+  theme(plot.title=element_text(face="bold",hjust=0.5,vjust=2,colour="#3C3C3C",size=12))
+
+
 #Usamos la libreria FRED
 library(fredr)
 
